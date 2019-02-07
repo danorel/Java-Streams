@@ -1,9 +1,8 @@
 import streams.Operations;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class App {
     public static void main(String[] args) {
@@ -14,7 +13,10 @@ public class App {
         List<String> strings = operations.getList();
         String result = strings.stream().reduce("", (res, value) -> res+= value);
         System.out.println(result);
-        String[] elements = operations.getList().stream().filter(element -> element.contains("ly")).reduce("", (res, value) -> res += value + " ").split(" ");
-        Arrays.stream(elements).forEach(element -> System.out.println(element));
+        Arrays.stream(operations.getList().stream().filter(element -> element.contains("ly")).reduce("", (res, value) -> res += value + " ").split(" ")).forEach(System.out::println);
+        int MAXIMUM = Stream.iterate(0, value -> ++value).limit(10).filter(value -> value >= 5 && value <= 8).max((firstValue, secondValue) -> (int)(firstValue.longValue() - secondValue.longValue())).get();
+        System.out.println(operations.getList().stream().max((firstString, secondString) -> firstString.length() - secondString.length()).get());
+        List<String> list = operations.getList().stream().sorted((first, second) -> first.length() - second.length()).sorted(String::compareTo).collect(Collectors.toList());
+        System.out.println(list);
     }
 }
